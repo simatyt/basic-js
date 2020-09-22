@@ -1,25 +1,45 @@
-const CustomError = require("../extensions/custom-error");
+const {
+  verify
+} = require("sinon");
+
+let chain = [];
 
 const chainMaker = {
+
   getLength() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    return chain.length;
   },
+
   addLink(value) {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+
+    if (value === undefined) {
+      chain.push('');
+    }
+
+    chain.push(value);
+    return chainMaker;
   },
+
   removeLink(position) {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+
+    if (isNaN(position) || !chain.hasOwnProperty(position - 1)) {
+      chain = [];
+      throw new Error(`The position provided doesn't exists (provided: ${position})`);
+    }
+
+    chain.splice(position - 1, 1);
+    return chainMaker;
   },
+
   reverseChain() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    chain.reverse();
+    return chainMaker;
   },
+
   finishChain() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
+    const result = chain.map(x => `( ${x} )`).join("~~");
+    chain = [];
+    return result;
   }
 };
 
